@@ -12,10 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Snouter.Application\Snouter.Application.csproj" />
       <ProjectReference Include="..\Snouter.Contracts\Snouter.Contracts.csproj" />
     </ItemGroup>
