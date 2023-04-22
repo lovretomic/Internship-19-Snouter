@@ -1,8 +1,7 @@
-﻿namespace Snouter.Application.Models.User;
+﻿namespace Snouter.Contracts.Requests;
 
-public class User
+public class UpdateUserRequest
 {
-    public Guid Id { get; init; }
     public string? FullName { get; set; }
     public string? Email { get; set; }
     public string? Password { get; set; }

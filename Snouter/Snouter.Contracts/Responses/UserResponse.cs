@@ -1,6 +1,6 @@
-﻿namespace Snouter.Application.Models.User;
+﻿namespace Snouter.Contracts.Responses;
 
-public class User
+public class UserResponse
 {
     public Guid Id { get; init; }
     public string? FullName { get; set; }
