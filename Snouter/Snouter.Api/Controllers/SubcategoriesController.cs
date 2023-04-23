@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Snouter.Api.Mapping;
+using Snouter.Application.Models;
 using Snouter.Application.Repositories;
+using Snouter.Contracts.Requests;
 
 namespace Snouter.Api.Controllers;
 
@@ -18,5 +21,19 @@ public class SubcategoriesController : ControllerBase
     {
         var subcategories = await _subcategoryRepository.GetAllAsync();
         return Ok(subcategories);
+    }
+
+    [HttpPost]
+    [Route(ApiEndpoints.Subcategory.Create)]
+    public async Task<IActionResult> Create([FromBody] CreateSubcategoryRequest request,  [FromRoute] string categoryName)
+    {
+        var subcategory = request.MapToSubcategory(categoryName);
+        var isCreated = await _subcategoryRepository.CreateAsync(subcategory);
+        if (!isCreated)
+        {
+            return BadRequest();
+        }
+
+        return Ok(isCreated);
     }
 }

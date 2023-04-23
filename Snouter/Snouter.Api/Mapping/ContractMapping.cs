@@ -64,4 +64,14 @@ public static class ContractMapping
             Name = category.Name
         };
     }
+
+    public static Subcategory MapToSubcategory(this CreateSubcategoryRequest subcategory, string categoryName)
+    {
+        return new Subcategory
+        {
+            Name = subcategory.Name,
+            CategoryName = categoryName,
+            AdditionalProps = subcategory.AdditionalProps
+        };
+    }
 }
