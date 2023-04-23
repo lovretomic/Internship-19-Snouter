@@ -1,4 +1,5 @@
 ﻿using Snouter.Application.Models.User;
+using Snouter.Contracts.Requests;
 using Snouter.Contracts.Responses;
 
 namespace Snouter.Api.Mapping;
@@ -16,6 +17,20 @@ public static class ContractMapping
             CreatedAt = user.CreatedAt,
             ProfilePicUrl = user.ProfilePicUrl,
             Location = user.Location
+        };
+    }
+
+    public static User MapToUser(this CreateUserRequest request)
+    {
+        return new User
+        {
+            Id = Guid.NewGuid(),
+            CreatedAt = request.CreatedAt,
+            Email = request.Email,
+            FullName = request.FullName,
+            Location = request.Location,
+            Password = request.Password,
+            ProfilePicUrl = request.ProfilePicUrl
         };
     }
 }

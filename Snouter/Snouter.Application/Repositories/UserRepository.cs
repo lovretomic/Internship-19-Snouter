@@ -15,7 +15,11 @@ public class UserRepository : IUserRepository
         _users.Add(user);
         return Task.FromResult(true);
     }
-
+    
+    public Task<IEnumerable<User>> GetAllAsync()
+    {
+        return Task.FromResult<IEnumerable<User>>(_users);
+    }
     public Task<User?> GetByIdAsync(Guid id)
     {
         var user = _users.SingleOrDefault(x => x.Id == id);
