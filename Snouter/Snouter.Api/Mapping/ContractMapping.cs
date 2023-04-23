@@ -33,4 +33,18 @@ public static class ContractMapping
             ProfilePicUrl = request.ProfilePicUrl
         };
     }
+    
+    public static User MapToUser(this UpdateUserRequest request, Guid id)
+    {
+        return new User
+        {
+            Id = id,
+            CreatedAt = request.CreatedAt,
+            Email = request.Email,
+            FullName = request.FullName,
+            Location = request.Location,
+            Password = request.Password,
+            ProfilePicUrl = request.ProfilePicUrl
+        };
+    }
 }

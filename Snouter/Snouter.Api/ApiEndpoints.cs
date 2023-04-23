@@ -9,6 +9,7 @@ public static class ApiEndpoints
         public const string Create = $"{ApiBase}/users";
         public const string GetAll = $"{ApiBase}/users";
         public const string GetById = $"{ApiBase}/users/{{id:guid}}";
+        public const string Update = $"{ApiBase}/users/{{id:guid}}";
         public const string DeleteById = $"{ApiBase}/users/{{id:guid}}";
     }
 }

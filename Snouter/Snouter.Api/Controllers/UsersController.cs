@@ -52,6 +52,21 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPut]
+    [Route(ApiEndpoints.User.Update)]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequest request)
+    {
+        var user = request.MapToUser(id);
+        var isUpdated = await _userRepository.UpdateAsync(user);
+        if (!isUpdated)
+        {
+            return NotFound();
+        }
+
+        var response = user.MapToResponse();
+        return Ok(response);
+    }
+
     [HttpDelete]
     [Route(ApiEndpoints.User.DeleteById)]
     public async Task<IActionResult> DeleteById([FromRoute] Guid id)
