@@ -36,4 +36,16 @@ public class SubcategoriesController : ControllerBase
 
         return Ok(isCreated);
     }
+
+    [HttpDelete]
+    [Route(ApiEndpoints.Subcategory.DeleteByName)]
+    public async Task<IActionResult> DeleteByName([FromRoute] string name)
+    {
+        var isDeleted = await _subcategoryRepository.DeleteByNameAsync(name);
+        if (!isDeleted)
+        {
+            return BadRequest();
+        }   
+        return Ok(isDeleted);
+    }
 }
