@@ -109,4 +109,21 @@ public static class ContractMapping
             Title = request.Title
         };
     }
+
+    public static Item MapToTask(this UpdateItemRequest request, Guid id)
+    {
+        return new Item
+        {
+            AdditionalProps = request.AdditionalProps,
+            AuthorId = request.AuthorId,
+            Subcategory = request.Subcategory,
+            CreatedAt = request.CreatedAt,
+            Currency = request.Currency,
+            Description = request.Description,
+            Id = id,
+            ImageLinks = request.ImageLinks,
+            Price = request.Price,
+            Title = request.Title
+        };
+    }
 }

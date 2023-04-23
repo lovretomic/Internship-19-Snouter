@@ -55,4 +55,19 @@ public class ItemsController : ControllerBase
         }   
         return Ok(isDeleted);
     }
+
+    [HttpPut]
+    [Route(ApiEndpoints.Item.Update)]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateItemRequest request)
+    {
+        var task = request.MapToTask(id);
+        var isUpdated = await _itemRepository.UpdateAsync(task);
+        if (!isUpdated)
+        {
+            return NotFound();
+        }
+
+        var response = task.MapToResponse();
+        return Ok(response);
+    }
 }
