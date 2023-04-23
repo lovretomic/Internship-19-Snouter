@@ -82,7 +82,7 @@ public static class ContractMapping
         {
             AdditionalProps = item.AdditionalProps,
             AuthorId = item.AuthorId,
-            Category = item.Category,
+            Subcategory = item.Subcategory,
             CreatedAt = item.CreatedAt,
             Currency = item.Currency,
             Description = item.Description,
@@ -90,6 +90,23 @@ public static class ContractMapping
             ImageLinks = item.ImageLinks,
             Price = item.Price,
             Title = item.Title
+        };
+    }
+
+    public static Item MapToItem(this CreateItemRequest request)
+    {
+        return new Item
+        {
+            AdditionalProps = request.AdditionalProps,
+            AuthorId = request.AuthorId,
+            Subcategory = request.Subcategory,
+            CreatedAt = request.CreatedAt,
+            Currency = request.Currency,
+            Description = request.Description,
+            Id = Guid.NewGuid(),
+            ImageLinks = request.ImageLinks,
+            Price = request.Price,
+            Title = request.Title
         };
     }
 }

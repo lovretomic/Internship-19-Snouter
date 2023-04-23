@@ -31,7 +31,7 @@ public class ItemRepository : IItemRepository
             return Task.FromResult(false);
         }
         
-        existingItem.Category = item.Category;
+        existingItem.Subcategory = item.Subcategory;
         existingItem.Currency = item.Currency;
         existingItem.CreatedAt = item.CreatedAt;
         existingItem.Title = item.Title;
