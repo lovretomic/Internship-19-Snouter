@@ -1,4 +1,5 @@
-﻿using Snouter.Application.Models.User;
+﻿using Snouter.Application.Models;
+using Snouter.Application.Models.User;
 using Snouter.Contracts.Requests;
 using Snouter.Contracts.Responses;
 
@@ -45,6 +46,14 @@ public static class ContractMapping
             Location = request.Location,
             Password = request.Password,
             ProfilePicUrl = request.ProfilePicUrl
+        };
+    }
+
+    public static Category MapToCategory(this CreateCategoryRequest request)
+    {
+        return new Category()
+        {
+            Name = request.Name
         };
     }
 }
