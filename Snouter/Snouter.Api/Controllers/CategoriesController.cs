@@ -36,4 +36,16 @@ public class CategoriesController : ControllerBase
 
         return Ok(isCreated);
     }
+
+    [HttpDelete]
+    [Route(ApiEndpoints.Category.DeleteByName)]
+    public async Task<IActionResult> Delete([FromRoute] string name)
+    {
+        var isDeleted = await _categoryRepository.DeleteByNameAsync(name);
+        if (!isDeleted)
+        {
+            return BadRequest();
+        }   
+        return Ok(isDeleted);
+    }
 }

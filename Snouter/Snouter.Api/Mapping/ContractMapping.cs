@@ -56,4 +56,12 @@ public static class ContractMapping
             Name = request.Name
         };
     }
+
+    public static CategoryResponse MapToResponse(this Category category)
+    {
+        return new CategoryResponse
+        {
+            Name = category.Name
+        };
+    }
 }

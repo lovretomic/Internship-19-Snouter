@@ -8,33 +8,28 @@ public class CategoryRepository : ICategoryRepository
     
     public Task<bool> CreateAsync(Category category)
     {
-        if (_categories.Contains(category))
+        var hasDuplicate = _categories.GroupBy(x => new { x.Name }).Any(g => g.Count() > 0);
+
+        if (hasDuplicate)
         {
             return Task.FromResult(false);
         }
         _categories.Add(category);
+        
         return Task.FromResult(true);
     }
-
+    public Task<Category> GetByNameAsync(string name)
+    {
+        var category = _categories.SingleOrDefault(x => x.Name == name);
+        return Task.FromResult(category);
+    }
+    
     public Task<IEnumerable<Category>> GetAllAsync()
     {
         return Task.FromResult<IEnumerable<Category>>(_categories);
     }
-
-    public Task<bool> UpdateAsync(Category category)
-    {
-        var existingCategory = _categories.SingleOrDefault(x => x.Name == category.Name);
-
-        if (existingCategory is null)
-        {
-            return Task.FromResult(false);
-        }
-
-        existingCategory.Name = category.Name;
-        return Task.FromResult(true);
-    }
-
-    public Task<bool> DeleteByName(string name)
+    
+    public Task<bool> DeleteByNameAsync(string name)
     {
         var existingCategory = _categories.SingleOrDefault(x => x.Name == name);
 

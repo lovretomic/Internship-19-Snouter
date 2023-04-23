@@ -19,7 +19,6 @@ public static class ApiEndpoints
         private const string CategoryBase = $"{ApiBase}/categories";
         public const string Create = CategoryBase;
         public const string GetAll = CategoryBase;
-        public const string Update = $"{CategoryBase}/{{name:string}}";
-        public const string DeleteByName = $"{CategoryBase}/{{name:string}}";
+        public const string DeleteByName = $"{CategoryBase}/{{name}}";
     }
 }
