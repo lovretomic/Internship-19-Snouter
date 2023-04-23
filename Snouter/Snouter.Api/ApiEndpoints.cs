@@ -35,5 +35,6 @@ public static class ApiEndpoints
         private const string ItemBase = $"{ApiBase}/items";
         public const string Create = ItemBase;
         public const string GetById = $"{ItemBase}/{{id:guid}}";
+        public const string DeleteById = $"{ItemBase}/{{id:guid}}";
     }
 }

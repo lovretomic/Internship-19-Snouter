@@ -43,4 +43,16 @@ public class ItemsController : ControllerBase
         var response = item.MapToResponse();
         return Ok(response);
     }
+
+    [HttpDelete]
+    [Route(ApiEndpoints.Item.DeleteById)]
+    public async Task<IActionResult> DeleteById([FromRoute] Guid id)
+    {
+        var isDeleted = await _itemRepository.DeleteByIdAsync(id);
+        if (!isDeleted)
+        {
+            return BadRequest();
+        }   
+        return Ok(isDeleted);
+    }
 }
