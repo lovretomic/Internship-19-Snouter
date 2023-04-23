@@ -21,4 +21,12 @@ public static class ApiEndpoints
         public const string GetAll = CategoryBase;
         public const string DeleteByName = $"{CategoryBase}/{{name}}";
     }
+
+    public static class Subcategory
+    {
+        private const string SubcategoryBase = $"{ApiBase}/{{categoryName}}";
+        public const string Create = SubcategoryBase;
+        public const string GetAll = $"{ApiBase}/subcategories";
+        public const string DeleteByName = $"{SubcategoryBase}/{{name}}";
+    }
 }

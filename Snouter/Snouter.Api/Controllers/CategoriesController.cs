@@ -19,8 +19,8 @@ public class CategoriesController : ControllerBase
     [Route(ApiEndpoints.Category.GetAll)]
     public async Task<IActionResult> GetAll()
     {
-        var posts = await _categoryRepository.GetAllAsync();
-        return Ok(posts);
+        var categories = await _categoryRepository.GetAllAsync();
+        return Ok(categories);
     }
 
     [HttpPost]
