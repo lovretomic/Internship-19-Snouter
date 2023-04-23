@@ -1,8 +1,7 @@
-﻿namespace Snouter.Application.Models.Item;
+﻿namespace Snouter.Contracts.Requests;
 
-public class Item
+public class CreateItemRequest
 {
-    public Guid Id { get; init; }
     public Guid AuthorId { get; set; }
     public string? Title { get; set; }
     public DateTime CreatedAt { get; set; }

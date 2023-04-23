@@ -29,4 +29,10 @@ public static class ApiEndpoints
         public const string GetAll = $"{ApiBase}/subcategories";
         public const string DeleteByName = $"{SubcategoryBase}/{{name}}";
     }
+
+    public static class Item
+    {
+        private const string ItemBase = $"{ApiBase}/items";
+        public const string GetById = $"{ItemBase}/{{id:guid}}";
+    }
 }

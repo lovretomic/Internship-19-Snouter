@@ -10,6 +10,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ICategoryRepository, CategoryRepository>();
         services.AddSingleton<ISubcategoryRepository, SubcategoryRepository>();
+        services.AddSingleton<IItemRepository, ItemRepository>();
         return services;
     }
 }

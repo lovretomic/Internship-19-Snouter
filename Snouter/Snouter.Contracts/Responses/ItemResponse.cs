@@ -1,6 +1,6 @@
-﻿namespace Snouter.Application.Models.Item;
+﻿namespace Snouter.Contracts.Responses;
 
-public class Item
+public class ItemResponse
 {
     public Guid Id { get; init; }
     public Guid AuthorId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Snouter.Application.Models;
+using Snouter.Application.Models.Item;
 using Snouter.Application.Models.User;
 using Snouter.Contracts.Requests;
 using Snouter.Contracts.Responses;
@@ -72,6 +73,23 @@ public static class ContractMapping
             Name = subcategory.Name,
             CategoryName = categoryName,
             AdditionalProps = subcategory.AdditionalProps
+        };
+    }
+
+    public static ItemResponse MapToResponse(this Item item)
+    {
+        return new ItemResponse()
+        {
+            AdditionalProps = item.AdditionalProps,
+            AuthorId = item.AuthorId,
+            Category = item.Category,
+            CreatedAt = item.CreatedAt,
+            Currency = item.Currency,
+            Description = item.Description,
+            Id = item.Id,
+            ImageLinks = item.ImageLinks,
+            Price = item.Price,
+            Title = item.Title
         };
     }
 }
