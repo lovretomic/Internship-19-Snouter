@@ -38,7 +38,8 @@ public class UserRepository : IUserRepository
         existingUser.FullName = user.FullName;
         existingUser.Email = user.Email;
         existingUser.Password = user.Password;
-        existingUser.Location = user.Location;
+        existingUser.Lat = existingUser.Lat;
+        existingUser.Long = existingUser.Long;
         existingUser.ProfilePicUrl = user.ProfilePicUrl;
 
         return Task.FromResult(true);

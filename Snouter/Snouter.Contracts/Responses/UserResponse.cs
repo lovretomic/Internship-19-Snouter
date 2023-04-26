@@ -8,5 +8,6 @@ public class UserResponse
     public string? Password { get; set; }
     public DateTime CreatedAt { get; set; }
     public string? ProfilePicUrl { get; set; }
-    public (decimal Lat, decimal Long) Location { get; set; }
+    public decimal Lat { get; set; }
+    public decimal Long { get; set; }
 }

@@ -10,4 +10,6 @@ public class DbInitializer
     {
         _dbConnectionFactory = dbConnectionFactory;
     }
+    
+    // Initializer functions
 }
