@@ -45,7 +45,7 @@ public class DbInitializer
 
         await connection.ExecuteAsync(@"
             create table if not exists Categories (
-                Name TEXT
+                Name TEXT UNIQUE NOT NULL
             );
         ");
 
