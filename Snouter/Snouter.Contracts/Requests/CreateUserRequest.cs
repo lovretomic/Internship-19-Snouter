@@ -7,6 +7,6 @@ public class CreateUserRequest
     public string? Password { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public string? ProfilePicUrl { get; set; }
-    public decimal Lat { get; set; }
-    public decimal Long { get; set; }
+    public decimal Latitude { get; set; }
+    public decimal Longitude { get; set; }
 }

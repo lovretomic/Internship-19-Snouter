@@ -23,8 +23,8 @@ public class DbInitializer
                 Password TEXT,
                 CreatedAt date not null,
                 ProfilePicUrl TEXT,
-                Lat INTEGER,
-                Long INTEGER
+                Latitude INTEGER,
+                Longitude INTEGER
             );
         ");
 

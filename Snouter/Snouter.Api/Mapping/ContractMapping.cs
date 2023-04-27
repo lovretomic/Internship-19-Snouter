@@ -18,8 +18,8 @@ public static class ContractMapping
             Password = user.Password,
             CreatedAt = user.CreatedAt,
             ProfilePicUrl = user.ProfilePicUrl,
-            Lat = user.Lat,
-            Long = user.Long
+            Latitude = user.Latitude,
+            Longitude = user.Longitude
         };
     }
 
@@ -31,8 +31,8 @@ public static class ContractMapping
             CreatedAt = request.CreatedAt,
             Email = request.Email,
             FullName = request.FullName,
-            Lat = request.Lat,
-            Long = request.Long,
+            Latitude = request.Latitude,
+            Longitude = request.Longitude,
             Password = request.Password,
             ProfilePicUrl = request.ProfilePicUrl
         };
@@ -46,8 +46,8 @@ public static class ContractMapping
             CreatedAt = request.CreatedAt,
             Email = request.Email,
             FullName = request.FullName,
-            Lat = request.Lat,
-            Long = request.Long,
+            Latitude = request.Latitude,
+            Longitude = request.Longitude,
             Password = request.Password,
             ProfilePicUrl = request.ProfilePicUrl
         };
