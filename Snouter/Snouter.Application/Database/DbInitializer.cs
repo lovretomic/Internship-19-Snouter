@@ -53,7 +53,7 @@ public class DbInitializer
             create table if not exists Subcategories (
                 Name TEXT,
                 CategoryName TEXT,
-                AdditionalProps JSON
+                AdditionalProps TEXT
             );
         ");
     }

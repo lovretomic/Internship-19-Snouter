@@ -28,7 +28,7 @@ public class SubcategoriesController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateSubcategoryRequest request,  [FromRoute] string categoryName)
     {
         var subcategory = request.MapToSubcategory(categoryName);
-        var isCreated = await _subcategoryRepository.CreateAsync(subcategory);
+        var isCreated = await _subcategoryRepository.CreateAsync(subcategory, categoryName);
         if (!isCreated)
         {
             return BadRequest();
