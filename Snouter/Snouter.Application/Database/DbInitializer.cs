@@ -36,10 +36,10 @@ public class DbInitializer
                 CreatedAt date,
                 Subcategory TEXT,
                 Description TEXT,
-                ImageLinks TEXT[],
+                ImageLinks TEXT,
                 Price NUMERIC(15, 2),
                 Currency TEXT,
-                AdditionalProps JSON
+                AdditionalProps TEXT
             );
         ");
 
