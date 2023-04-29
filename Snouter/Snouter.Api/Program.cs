@@ -1,3 +1,4 @@
+using Snouter.Api.Mapping;
 using Snouter.Application;
 using Snouter.Application.Database;
 
@@ -26,6 +27,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseMiddleware<ValidationMappingMiddleware>();
 app.MapControllers();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();

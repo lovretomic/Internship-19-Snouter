@@ -18,8 +18,8 @@ public class ItemService : IItemService
     
     public async Task<bool> CreateAsync(Item item)
     {
-        var result = await _itemValidator.ValidateAsync(item);
-        if (!result.IsValid) return false;
+        await _itemValidator.ValidateAndThrowAsync(item);
+
         return await _itemRepository.CreateAsync(item);
     }
 

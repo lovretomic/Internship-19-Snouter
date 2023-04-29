@@ -10,6 +10,8 @@ public static class ApplicationServiceCollectionExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+        
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ICategoryRepository, CategoryRepository>();
         services.AddSingleton<ISubcategoryRepository, SubcategoryRepository>();
@@ -17,8 +19,6 @@ public static class ApplicationServiceCollectionExtensions
 
         services.AddSingleton<IItemService, ItemService>();
 
-        services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
-        
         return services;
     }
 
