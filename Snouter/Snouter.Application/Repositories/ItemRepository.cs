@@ -6,8 +6,6 @@ namespace Snouter.Application.Repositories;
 
 public class ItemRepository : IItemRepository
 {
-    private List<Item> _items = new();
-    
     private readonly IDbConnectionFactory _dbConnectionFactory;
     public ItemRepository(IDbConnectionFactory dbConnectionFactory)
     {
@@ -30,14 +28,6 @@ public class ItemRepository : IItemRepository
         
         transaction.Commit();
         return result > 0;
-        /*
-        if (_items.Contains(item))
-        {
-            return Task.FromResult(false);
-        }
-        _items.Add(item);
-        return Task.FromResult(true);
-        */
     }
 
     public async Task<Item> GetByIdAsync(Guid id)
@@ -49,10 +39,6 @@ public class ItemRepository : IItemRepository
         ", new { Id = id }));
 
         return item;
-        /*
-        var item = _items.SingleOrDefault(x => x.Id == id);
-        return Task.FromResult(item);
-        */
     }
 
     public async Task<bool> UpdateAsync(Item item)
@@ -75,26 +61,6 @@ public class ItemRepository : IItemRepository
         
         transaction.Commit();
         return result > 0;
-        /*
-        var existingItem = _items.SingleOrDefault(x => x.Id == item.Id);
-
-        if (existingItem is null)
-        {
-            return Task.FromResult(false);
-        }
-        
-        existingItem.Subcategory = item.Subcategory;
-        existingItem.Currency = item.Currency;
-        existingItem.CreatedAt = item.CreatedAt;
-        existingItem.Title = item.Title;
-        existingItem.Description = item.Description;
-        existingItem.Price = item.Price;
-        existingItem.AdditionalProps = item.AdditionalProps;
-        existingItem.AuthorId = item.AuthorId;
-        existingItem.ImageLinks = item.ImageLinks;
-
-        return Task.FromResult(true);
-        */
     }
 
     public async Task<bool> DeleteByIdAsync(Guid id)
@@ -108,16 +74,5 @@ public class ItemRepository : IItemRepository
         
         transaction.Commit();
         return result > 0;
-        /*
-        var existingItem = _items.SingleOrDefault(x => x.Id == id);
-
-        if (existingItem is null)
-        {
-            return Task.FromResult(false);
-        }
-
-        _items.Remove(existingItem);
-        return Task.FromResult(true);
-        */
     }
 }

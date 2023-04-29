@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Snouter.Application.Database;
 using Snouter.Application.Repositories;
+using Snouter.Application.Services;
 
 namespace Snouter.Application;
 
@@ -12,6 +14,11 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<ICategoryRepository, CategoryRepository>();
         services.AddSingleton<ISubcategoryRepository, SubcategoryRepository>();
         services.AddSingleton<IItemRepository, ItemRepository>();
+
+        services.AddSingleton<IItemService, ItemService>();
+
+        services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+        
         return services;
     }
 
