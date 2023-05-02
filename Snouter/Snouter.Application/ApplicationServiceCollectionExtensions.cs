@@ -20,6 +20,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<IItemService, ItemService>();
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<ICategoryService, CategoryService>();
+        services.AddSingleton<ISubcategoryService, SubcategoryService>();
 
         return services;
     }
