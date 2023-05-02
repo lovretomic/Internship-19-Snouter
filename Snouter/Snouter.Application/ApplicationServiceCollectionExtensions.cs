@@ -18,6 +18,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddSingleton<IItemRepository, ItemRepository>();
 
         services.AddSingleton<IItemService, ItemService>();
+        services.AddSingleton<IUserService, UserService>();
 
         return services;
     }

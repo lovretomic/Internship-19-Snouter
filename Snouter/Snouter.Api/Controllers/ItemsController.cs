@@ -9,12 +9,10 @@ namespace Snouter.Api.Controllers;
 
 public class ItemsController : ControllerBase
 {
-    private readonly IItemRepository _itemRepository;
     private readonly IItemService _itemService;
 
-    public ItemsController(IItemRepository itemRepository, IItemService itemService)
+    public ItemsController(IItemService itemService)
     {
-        _itemRepository = itemRepository;
         _itemService = itemService;
     }
 
