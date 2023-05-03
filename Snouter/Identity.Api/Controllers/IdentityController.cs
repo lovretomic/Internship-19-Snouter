@@ -10,7 +10,7 @@ namespace Identity.Api.Controllers;
 [ApiController]
 public class IdentityController : ControllerBase
 {
-    private const string TokenSecret = "bL3SlofgqBoA";
+    private const string TokenSecret = "E6JUrU1wdqOpv35T4hUD";
     private static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(8);
 
     [HttpPost("token")]

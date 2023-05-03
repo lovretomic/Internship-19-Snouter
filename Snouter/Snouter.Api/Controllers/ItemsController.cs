@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snouter.Api.Mapping;
 using Snouter.Application.Models.Item;
 using Snouter.Application.Repositories;
@@ -16,6 +17,7 @@ public class ItemsController : ControllerBase
         _itemService = itemService;
     }
 
+    [Authorize]
     [HttpPost]
     [Route(ApiEndpoints.Item.Create)]
     public async Task<IActionResult> Create([FromBody] CreateItemRequest request, CancellationToken token = default)
@@ -31,6 +33,7 @@ public class ItemsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
     }
     
+    [AllowAnonymous]
     [HttpGet]
     [Route(ApiEndpoints.Item.GetById)]
     public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken token)
