@@ -18,7 +18,8 @@ public static class ContractMapping
             Password = user.Password,
             CreatedAt = user.CreatedAt,
             ProfilePicUrl = user.ProfilePicUrl,
-            Location = user.Location
+            Latitude = user.Latitude,
+            Longitude = user.Longitude
         };
     }
 
@@ -30,7 +31,8 @@ public static class ContractMapping
             CreatedAt = request.CreatedAt,
             Email = request.Email,
             FullName = request.FullName,
-            Location = request.Location,
+            Latitude = request.Latitude,
+            Longitude = request.Longitude,
             Password = request.Password,
             ProfilePicUrl = request.ProfilePicUrl
         };
@@ -44,7 +46,8 @@ public static class ContractMapping
             CreatedAt = request.CreatedAt,
             Email = request.Email,
             FullName = request.FullName,
-            Location = request.Location,
+            Latitude = request.Latitude,
+            Longitude = request.Longitude,
             Password = request.Password,
             ProfilePicUrl = request.ProfilePicUrl
         };
@@ -89,7 +92,8 @@ public static class ContractMapping
             Id = item.Id,
             ImageLinks = item.ImageLinks,
             Price = item.Price,
-            Title = item.Title
+            Title = item.Title,
+            IsSold = item.IsSold
         };
     }
 
@@ -106,7 +110,8 @@ public static class ContractMapping
             Id = Guid.NewGuid(),
             ImageLinks = request.ImageLinks,
             Price = request.Price,
-            Title = request.Title
+            Title = request.Title,
+            IsSold = false
         };
     }
 

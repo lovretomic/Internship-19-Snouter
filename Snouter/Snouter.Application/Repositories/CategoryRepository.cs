@@ -1,44 +1,69 @@
-﻿using Snouter.Application.Models;
+﻿using Dapper;
+using Snouter.Application.Database;
+using Snouter.Application.Models;
 
 namespace Snouter.Application.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private List<Category> _categories = new();
+    private readonly IDbConnectionFactory _dbConnectionFactory;
     
-    public Task<bool> CreateAsync(Category category)
+    public CategoryRepository(IDbConnectionFactory dbConnectionFactory)
     {
-        var hasDuplicate = _categories.GroupBy(x => new { x.Name }).Any(g => g.Count() > 0);
+        _dbConnectionFactory = dbConnectionFactory;
+    }
+    
+    public async Task<bool> CreateAsync(Category category, CancellationToken token = default)
+    {
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+        using var transaction = connection.BeginTransaction();
 
-        if (hasDuplicate)
-        {
-            return Task.FromResult(false);
-        }
-        _categories.Add(category);
+        var result = await connection.ExecuteAsync(new CommandDefinition(@"
+            INSERT INTO Categories (Name)
+            VALUES (@Name)
+            ON CONFLICT DO NOTHING;
+        ", category, cancellationToken: token));
+
+        if (result <= 0) return false;
         
-        return Task.FromResult(true);
+        transaction.Commit();
+        return result > 0;
     }
-    public Task<Category> GetByNameAsync(string name)
+    public async Task<Category> GetByNameAsync(string name)
     {
-        var category = _categories.SingleOrDefault(x => x.Name == name);
-        return Task.FromResult(category);
-    }
-    
-    public Task<IEnumerable<Category>> GetAllAsync()
-    {
-        return Task.FromResult<IEnumerable<Category>>(_categories);
-    }
-    
-    public Task<bool> DeleteByNameAsync(string name)
-    {
-        var existingCategory = _categories.SingleOrDefault(x => x.Name == name);
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
-        if (existingCategory is null)
+        var category = await connection.QuerySingleOrDefaultAsync<Category>(new CommandDefinition(@"
+            select * from Categories where Name = @Name
+        ", new { Name = name }));
+
+        return category;
+    }
+    
+    public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken token = default)
+    {
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+
+        var result = await connection.QueryAsync(new CommandDefinition(@"
+            select * from Categories
+        ", cancellationToken: token));
+
+        return result.Select(x => new Category
         {
-            return Task.FromResult(false);
-        }
+            Name = x.name
+        });
+    }
+    
+    public async Task<bool> DeleteByNameAsync(string name, CancellationToken token = default)
+    {
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+        using var transaction = connection.BeginTransaction();
 
-        _categories.Remove(existingCategory);
-        return Task.FromResult(true);
+        var result = await connection.ExecuteAsync(new CommandDefinition(@"
+            delete from Categories where Name = @Name
+        ", new { Name = name }, cancellationToken: token));
+        
+        transaction.Commit();
+        return result > 0;
     }
 }

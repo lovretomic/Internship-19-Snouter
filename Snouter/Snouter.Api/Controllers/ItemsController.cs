@@ -1,26 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snouter.Api.Mapping;
 using Snouter.Application.Models.Item;
 using Snouter.Application.Repositories;
+using Snouter.Application.Services;
 using Snouter.Contracts.Requests;
 
 namespace Snouter.Api.Controllers;
 
+[Authorize]
+[ApiController]
 public class ItemsController : ControllerBase
 {
-    private readonly IItemRepository _itemRepository;
+    private readonly IItemService _itemService;
 
-    public ItemsController(IItemRepository itemRepository)
+    public ItemsController(IItemService itemService)
     {
-        _itemRepository = itemRepository;
+        _itemService = itemService;
     }
 
+    [Authorize("User")]
     [HttpPost]
     [Route(ApiEndpoints.Item.Create)]
-    public async Task<IActionResult> Create([FromBody] CreateItemRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateItemRequest request, CancellationToken token = default)
     {
         var item = request.MapToItem();
-        var isCreated = _itemRepository.CreateAsync(item).Result;
+        var isCreated = _itemService.CreateAsync(item, token).Result;
         if (!isCreated)
         {
             return BadRequest();
@@ -30,11 +35,12 @@ public class ItemsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
     }
     
+    [AllowAnonymous]
     [HttpGet]
     [Route(ApiEndpoints.Item.GetById)]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken token)
     {
-        var item = await _itemRepository.GetByIdAsync(id);
+        var item = await _itemService.GetByIdAsync(id, token);
         if (item is null)
         {
             return NotFound();
@@ -43,25 +49,27 @@ public class ItemsController : ControllerBase
         var response = item.MapToResponse();
         return Ok(response);
     }
-
+    
+    [Authorize("Admin")]
     [HttpDelete]
     [Route(ApiEndpoints.Item.DeleteById)]
-    public async Task<IActionResult> DeleteById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteById([FromRoute] Guid id, CancellationToken token)
     {
-        var isDeleted = await _itemRepository.DeleteByIdAsync(id);
+        var isDeleted = await _itemService.DeleteByIdAsync(id, token);
         if (!isDeleted)
         {
             return BadRequest();
         }   
         return Ok(isDeleted);
     }
-
+    
+    [Authorize("Admin")]
     [HttpPut]
     [Route(ApiEndpoints.Item.Update)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateItemRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateItemRequest request, CancellationToken token)
     {
         var task = request.MapToTask(id);
-        var isUpdated = await _itemRepository.UpdateAsync(task);
+        var isUpdated = await _itemService.UpdateAsync(task, token);
         if (!isUpdated)
         {
             return NotFound();

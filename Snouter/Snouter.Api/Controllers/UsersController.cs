@@ -1,26 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snouter.Api.Mapping;
 using Snouter.Application.Repositories;
+using Snouter.Application.Services;
 using Snouter.Contracts.Requests;
 
 namespace Snouter.Api.Controllers;
 
+[Authorize]
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
 
-    public UsersController(IUserRepository userRepository)
+    public UsersController(IUserService userService)
     {
-        _userRepository = userRepository;
+        _userService = userService;
     }
-
+    
+    [Authorize("Admin")]
     [HttpPost]
     [Route(ApiEndpoints.User.Create)]
-    public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateUserRequest request, CancellationToken token)
     {
         var user = request.MapToUser();
-        var isCreated = _userRepository.CreateAsync(user).Result;
+        var isCreated = _userService.CreateAsync(user, token).Result;
         if (!isCreated)
         {
             return BadRequest();
@@ -32,17 +36,17 @@ public class UsersController : ControllerBase
 
     [HttpGet]
     [Route(ApiEndpoints.User.GetAll)]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken token)
     {
-        var users = await _userRepository.GetAllAsync();
+        var users = await _userService.GetAllAsync(token);
         return Ok(users);
     }
     
     [HttpGet]
     [Route(ApiEndpoints.User.GetById)]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken token)
     {
-        var user = await _userRepository.GetByIdAsync(id);
+        var user = await _userService.GetByIdAsync(id, token);
         if (user is null)
         {
             return NotFound();
@@ -51,13 +55,14 @@ public class UsersController : ControllerBase
         var response = user.MapToResponse();
         return Ok(response);
     }
-
+    
+    [Authorize("User")]
     [HttpPut]
     [Route(ApiEndpoints.User.Update)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequest request, CancellationToken token)
     {
         var user = request.MapToUser(id);
-        var isUpdated = await _userRepository.UpdateAsync(user);
+        var isUpdated = await _userService.UpdateAsync(user, token);
         if (!isUpdated)
         {
             return NotFound();
@@ -67,11 +72,12 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
+    [Authorize("Admin")]
     [HttpDelete]
     [Route(ApiEndpoints.User.DeleteById)]
-    public async Task<IActionResult> DeleteById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteById([FromRoute] Guid id, CancellationToken token)
     {
-        var isDeleted = await _userRepository.DeleteByIdAsync(id);
+        var isDeleted = await _userService.DeleteByIdAsync(id, token);
         if (!isDeleted)
         {
             return BadRequest();
