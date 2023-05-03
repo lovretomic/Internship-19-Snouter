@@ -28,7 +28,11 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(x =>
+    {
+        x.AddPolicy("Admin", p => p.RequireClaim("admin", "true"));
+        x.AddPolicy("User", p => p.RequireClaim("user", "true"));
+    });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

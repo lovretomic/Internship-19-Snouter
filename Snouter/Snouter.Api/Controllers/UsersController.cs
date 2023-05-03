@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Snouter.Api.Mapping;
 using Snouter.Application.Repositories;
 using Snouter.Application.Services;
@@ -6,6 +7,7 @@ using Snouter.Contracts.Requests;
 
 namespace Snouter.Api.Controllers;
 
+[Authorize]
 [ApiController]
 public class UsersController : ControllerBase
 {
@@ -17,7 +19,8 @@ public class UsersController : ControllerBase
         _userRepository = userRepository;
         _userService = userService;
     }
-
+    
+    [Authorize("Admin")]
     [HttpPost]
     [Route(ApiEndpoints.User.Create)]
     public async Task<IActionResult> Create([FromBody] CreateUserRequest request, CancellationToken token)
@@ -70,6 +73,7 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
+    [Authorize("Admin")]
     [HttpDelete]
     [Route(ApiEndpoints.User.DeleteById)]
     public async Task<IActionResult> DeleteById([FromRoute] Guid id, CancellationToken token)

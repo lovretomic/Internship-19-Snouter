@@ -8,6 +8,8 @@ using Snouter.Contracts.Requests;
 
 namespace Snouter.Api.Controllers;
 
+[Authorize]
+[ApiController]
 public class ItemsController : ControllerBase
 {
     private readonly IItemService _itemService;
@@ -17,7 +19,7 @@ public class ItemsController : ControllerBase
         _itemService = itemService;
     }
 
-    [Authorize]
+    [Authorize("Admin")]
     [HttpPost]
     [Route(ApiEndpoints.Item.Create)]
     public async Task<IActionResult> Create([FromBody] CreateItemRequest request, CancellationToken token = default)
@@ -47,7 +49,8 @@ public class ItemsController : ControllerBase
         var response = item.MapToResponse();
         return Ok(response);
     }
-
+    
+    [Authorize("Admin")]
     [HttpDelete]
     [Route(ApiEndpoints.Item.DeleteById)]
     public async Task<IActionResult> DeleteById([FromRoute] Guid id, CancellationToken token)
@@ -59,7 +62,8 @@ public class ItemsController : ControllerBase
         }   
         return Ok(isDeleted);
     }
-
+    
+    [Authorize("Admin")]
     [HttpPut]
     [Route(ApiEndpoints.Item.Update)]
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateItemRequest request, CancellationToken token)
