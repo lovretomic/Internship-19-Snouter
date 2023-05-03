@@ -18,9 +18,9 @@ public class ItemRepository : IItemRepository
 
         var result = await connection.ExecuteAsync(new CommandDefinition(@"
             INSERT INTO Items (Id, AuthorId, Title, CreatedAt, Subcategory, Description,
-                               ImageLinks, Price, Currency, AdditionalProps)
+                               ImageLinks, Price, Currency, IsSold, AdditionalProps)
             VALUES (@Id, @AuthorId, @Title, @CreatedAt, @Subcategory, @Description, @ImageLinks,
-                    @Price, @Currency, @AdditionalProps)
+                    @Price, @Currency, @IsSold, @AdditionalProps)
             ON CONFLICT DO NOTHING;
         ", item, cancellationToken: token));
 

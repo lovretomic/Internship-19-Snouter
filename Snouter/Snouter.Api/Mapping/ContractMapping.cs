@@ -92,7 +92,8 @@ public static class ContractMapping
             Id = item.Id,
             ImageLinks = item.ImageLinks,
             Price = item.Price,
-            Title = item.Title
+            Title = item.Title,
+            IsSold = item.IsSold
         };
     }
 
@@ -109,7 +110,8 @@ public static class ContractMapping
             Id = Guid.NewGuid(),
             ImageLinks = request.ImageLinks,
             Price = request.Price,
-            Title = request.Title
+            Title = request.Title,
+            IsSold = false
         };
     }
 

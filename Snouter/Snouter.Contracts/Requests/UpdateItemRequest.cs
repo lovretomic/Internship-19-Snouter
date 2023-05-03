@@ -10,5 +10,6 @@ public class UpdateItemRequest
     public string? ImageLinks { get; set; }
     public decimal Price { get; set; }
     public string? Currency { get; set; }
+    public bool IsSold { get; set; }
     public string? AdditionalProps { get; set; }
 }

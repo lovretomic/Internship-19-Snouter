@@ -39,6 +39,7 @@ public class DbInitializer
                 ImageLinks TEXT,
                 Price NUMERIC(15, 2),
                 Currency TEXT,
+                IsSold BOOLEAN,
                 AdditionalProps TEXT
             );
         ");
