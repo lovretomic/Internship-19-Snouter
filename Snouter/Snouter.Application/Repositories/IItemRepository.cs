@@ -4,8 +4,8 @@ namespace Snouter.Application.Repositories;
 
 public interface IItemRepository
 {
-    Task<bool> CreateAsync(Item item);
-    Task<Item> GetByIdAsync(Guid id);
-    Task<bool> UpdateAsync(Item item);
-    Task<bool> DeleteByIdAsync(Guid id);
+    Task<bool> CreateAsync(Item item, CancellationToken token);
+    Task<Item> GetByIdAsync(Guid id, CancellationToken token);
+    Task<bool> UpdateAsync(Item item, CancellationToken token);
+    Task<bool> DeleteByIdAsync(Guid id, CancellationToken token);
 }

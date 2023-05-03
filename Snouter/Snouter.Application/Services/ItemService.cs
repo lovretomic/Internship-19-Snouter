@@ -16,25 +16,25 @@ public class ItemService : IItemService
         _itemValidator = itemValidator;
     }
     
-    public async Task<bool> CreateAsync(Item item)
+    public async Task<bool> CreateAsync(Item item, CancellationToken token = default)
     {
-        await _itemValidator.ValidateAndThrowAsync(item);
+        await _itemValidator.ValidateAndThrowAsync(item, cancellationToken: token);
 
-        return await _itemRepository.CreateAsync(item);
+        return await _itemRepository.CreateAsync(item, token);
     }
 
-    public Task<Item> GetByIdAsync(Guid id)
+    public Task<Item> GetByIdAsync(Guid id, CancellationToken token = default)
     {
-        return _itemRepository.GetByIdAsync(id);
+        return _itemRepository.GetByIdAsync(id, token);
     }
 
-    public Task<bool> UpdateAsync(Item item)
+    public Task<bool> UpdateAsync(Item item, CancellationToken token)
     {
-        return _itemRepository.UpdateAsync(item);
+        return _itemRepository.UpdateAsync(item, token);
     }
 
-    public Task<bool> DeleteByIdAsync(Guid id)
+    public Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
     {
-        return _itemRepository.DeleteByIdAsync(id);
+        return _itemRepository.DeleteByIdAsync(id, token);
     }
 }

@@ -20,18 +20,18 @@ public class CategoriesController : ControllerBase
 
     [HttpGet]
     [Route(ApiEndpoints.Category.GetAll)]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken token)
     {
-        var categories = await _categoryService.GetAllAsync();
+        var categories = await _categoryService.GetAllAsync(token);
         return Ok(categories);
     }
 
     [HttpPost]
     [Route(ApiEndpoints.Category.Create)]
-    public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request, CancellationToken token)
     {
         var category = request.MapToCategory();
-        var isCreated = await _categoryService.CreateAsync(category);
+        var isCreated = await _categoryService.CreateAsync(category, token);
         if (!isCreated)
         {
             return BadRequest();
@@ -42,9 +42,9 @@ public class CategoriesController : ControllerBase
 
     [HttpDelete]
     [Route(ApiEndpoints.Category.DeleteByName)]
-    public async Task<IActionResult> Delete([FromRoute] string name)
+    public async Task<IActionResult> Delete([FromRoute] string name, CancellationToken token)
     {
-        var isDeleted = await _categoryService.DeleteByNameAsync(name);
+        var isDeleted = await _categoryService.DeleteByNameAsync(name, token);
         if (!isDeleted)
         {
             return BadRequest();

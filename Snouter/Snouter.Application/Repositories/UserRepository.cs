@@ -12,7 +12,7 @@ public class UserRepository : IUserRepository
         _dbConnectionFactory = dbConnectionFactory;
     }
     
-    public async Task<bool> CreateAsync(User user)
+    public async Task<bool> CreateAsync(User user, CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
@@ -20,7 +20,7 @@ public class UserRepository : IUserRepository
         var result = await connection.ExecuteAsync(new CommandDefinition(@"
             insert into Users (Id, FullName, Email, Password, CreatedAt, ProfilePicUrl, Latitude, Longitude)
             values (@Id, @FullName, @Email, @Password, @CreatedAt, @ProfilePicUrl, @Latitude, @Longitude)
-        ", user));
+        ", user, cancellationToken: token));
 
         if (result <= 0) return false;
         
@@ -28,13 +28,13 @@ public class UserRepository : IUserRepository
         return result > 0;
     }
     
-    public async Task<IEnumerable<User>> GetAllAsync()
+    public async Task<IEnumerable<User>> GetAllAsync(CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
         var result = await connection.QueryAsync(new CommandDefinition(@"
             select * from Users
-        "));
+        ", cancellationToken: token));
 
         return result.Select(x => new User
         {
@@ -49,18 +49,18 @@ public class UserRepository : IUserRepository
         });
     }
     
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
         var user = await connection.QuerySingleOrDefaultAsync<User>(new CommandDefinition(@"
             select * from Users where Id = @id
-        ", new { id }));
+        ", new { id }, cancellationToken: token));
         
         return user;
     }
 
-    public async Task<bool> UpdateAsync(User user)
+    public async Task<bool> UpdateAsync(User user, CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
@@ -74,20 +74,20 @@ public class UserRepository : IUserRepository
                              Latitude = @Latitude,
                              Longitude = @Longitude
             where Id = @Id
-        ", user));
+        ", user, cancellationToken: token));
         
         transaction.Commit();
         return result > 0;
     }
 
-    public async Task<bool> DeleteByIdAsync(Guid id)
+    public async Task<bool> DeleteByIdAsync(Guid id,CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
 
         var result = await connection.ExecuteAsync(new CommandDefinition(@"
             delete from Users where Id = @id
-        ", new { id }));
+        ", new { id }, cancellationToken: token));
         
         transaction.Commit();
         return result > 0;

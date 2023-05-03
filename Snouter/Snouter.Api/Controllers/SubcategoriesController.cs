@@ -20,18 +20,18 @@ public class SubcategoriesController : ControllerBase
 
     [HttpGet]
     [Route(ApiEndpoints.Subcategory.GetAll)]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken token)
     {
-        var subcategories = await _subcategoryService.GetAllAsync();
+        var subcategories = await _subcategoryService.GetAllAsync(token);
         return Ok(subcategories);
     }
 
     [HttpPost]
     [Route(ApiEndpoints.Subcategory.Create)]
-    public async Task<IActionResult> Create([FromBody] CreateSubcategoryRequest request,  [FromRoute] string categoryName)
+    public async Task<IActionResult> Create([FromBody] CreateSubcategoryRequest request,  [FromRoute] string categoryName, CancellationToken token)
     {
         var subcategory = request.MapToSubcategory(categoryName);
-        var isCreated = await _subcategoryService.CreateAsync(subcategory, categoryName);
+        var isCreated = await _subcategoryService.CreateAsync(subcategory, categoryName, token);
         if (!isCreated)
         {
             return BadRequest();
@@ -42,9 +42,9 @@ public class SubcategoriesController : ControllerBase
 
     [HttpDelete]
     [Route(ApiEndpoints.Subcategory.DeleteByName)]
-    public async Task<IActionResult> DeleteByName([FromRoute] string name)
+    public async Task<IActionResult> DeleteByName([FromRoute] string name, CancellationToken token = default)
     {
-        var isDeleted = await _subcategoryService.DeleteByNameAsync(name);
+        var isDeleted = await _subcategoryService.DeleteByNameAsync(name, token);
         if (!isDeleted)
         {
             return BadRequest();

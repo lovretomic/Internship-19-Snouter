@@ -11,7 +11,7 @@ public class ItemRepository : IItemRepository
     {
         _dbConnectionFactory = dbConnectionFactory;
     }
-    public async Task<bool> CreateAsync(Item item)
+    public async Task<bool> CreateAsync(Item item, CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
@@ -22,7 +22,7 @@ public class ItemRepository : IItemRepository
             VALUES (@Id, @AuthorId, @Title, @CreatedAt, @Subcategory, @Description, @ImageLinks,
                     @Price, @Currency, @AdditionalProps)
             ON CONFLICT DO NOTHING;
-        ", item));
+        ", item, cancellationToken: token));
 
         if (result <= 0) return false;
         
@@ -30,18 +30,18 @@ public class ItemRepository : IItemRepository
         return result > 0;
     }
 
-    public async Task<Item> GetByIdAsync(Guid id)
+    public async Task<Item> GetByIdAsync(Guid id, CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
         var item = await connection.QuerySingleOrDefaultAsync<Item>(new CommandDefinition(@"
             select * from Items where Id = @Id
-        ", new { Id = id }));
+        ", new { Id = id }, cancellationToken: token));
 
         return item;
     }
 
-    public async Task<bool> UpdateAsync(Item item)
+    public async Task<bool> UpdateAsync(Item item, CancellationToken token)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
@@ -57,20 +57,20 @@ public class ItemRepository : IItemRepository
                              Currency = @Currency,
                              AdditionalProps = @AdditionalProps
             where Id = @Id
-        ", item));
+        ", item, cancellationToken: token));
         
         transaction.Commit();
         return result > 0;
     }
 
-    public async Task<bool> DeleteByIdAsync(Guid id)
+    public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
 
         var result = await connection.ExecuteAsync(new CommandDefinition(@"
             delete from Items where Id = @id
-        ", new { id }));
+        ", new { id }, cancellationToken: token));
         
         transaction.Commit();
         return result > 0;

@@ -4,8 +4,8 @@ namespace Snouter.Application.Services;
 
 public interface IItemService
 {
-    Task<bool> CreateAsync(Item item);
-    Task<Item> GetByIdAsync(Guid id);
-    Task<bool> UpdateAsync(Item item);
-    Task<bool> DeleteByIdAsync(Guid id);
+    Task<bool> CreateAsync(Item item, CancellationToken token = default);
+    Task<Item> GetByIdAsync(Guid id, CancellationToken token = default);
+    Task<bool> UpdateAsync(Item item, CancellationToken token = default);
+    Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default);
 }

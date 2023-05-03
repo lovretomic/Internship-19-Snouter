@@ -16,10 +16,10 @@ public class SubcategoryService : ISubcategoryService
         _subcategoryValidator = subcategoryValidator;
     }
     
-    public async Task<bool> CreateAsync(Subcategory subcategory, string categoryName)
+    public async Task<bool> CreateAsync(Subcategory subcategory, string categoryName, CancellationToken token = default)
     {
-        await _subcategoryValidator.ValidateAndThrowAsync(subcategory);
-        return await _subcategoryRepository.CreateAsync(subcategory, categoryName);
+        await _subcategoryValidator.ValidateAndThrowAsync(subcategory, cancellationToken: token);
+        return await _subcategoryRepository.CreateAsync(subcategory, categoryName, token);
     }
 
     public async Task<Subcategory> GetByNameAsync(string name)
@@ -27,13 +27,13 @@ public class SubcategoryService : ISubcategoryService
         return await _subcategoryRepository.GetByNameAsync(name);
     }
 
-    public async Task<IEnumerable<Subcategory>> GetAllAsync()
+    public async Task<IEnumerable<Subcategory>> GetAllAsync(CancellationToken token = default)
     {
-        return await _subcategoryRepository.GetAllAsync();
+        return await _subcategoryRepository.GetAllAsync(token);
     }
 
-    public async Task<bool> DeleteByNameAsync(string name)
+    public async Task<bool> DeleteByNameAsync(string name, CancellationToken token = default)
     {
-        return await _subcategoryRepository.DeleteByNameAsync(name);
+        return await _subcategoryRepository.DeleteByNameAsync(name, token);
     }
 }

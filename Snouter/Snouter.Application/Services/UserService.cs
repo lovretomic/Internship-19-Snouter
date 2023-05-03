@@ -16,29 +16,29 @@ public class UserService : IUserService
         _userValidator = userValidator;
     }
     
-    public async Task<bool> CreateAsync(User user)
+    public async Task<bool> CreateAsync(User user, CancellationToken token = default)
     {
-        await _userValidator.ValidateAndThrowAsync(user);
-        return await _userRepository.CreateAsync(user);
+        await _userValidator.ValidateAndThrowAsync(user, cancellationToken: token);
+        return await _userRepository.CreateAsync(user, token);
     }
 
-    public async Task<IEnumerable<User>> GetAllAsync()
+    public async Task<IEnumerable<User>> GetAllAsync(CancellationToken token = default)
     {
-        return await _userRepository.GetAllAsync();
+        return await _userRepository.GetAllAsync(token);
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken token = default)
     {
-        return await _userRepository.GetByIdAsync(id);
+        return await _userRepository.GetByIdAsync(id, token);
     }
 
-    public async Task<bool> UpdateAsync(User user)
+    public async Task<bool> UpdateAsync(User user, CancellationToken token = default)
     {
-        return await _userRepository.UpdateAsync(user);
+        return await _userRepository.UpdateAsync(user, token);
     }
 
-    public async Task<bool> DeleteByIdAsync(Guid id)
+    public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
     {
-        return await _userRepository.DeleteByIdAsync(id);
+        return await _userRepository.DeleteByIdAsync(id, token);
     }
 }

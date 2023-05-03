@@ -13,7 +13,7 @@ public class SubcategoryRepository : ISubcategoryRepository
         _dbConnectionFactory = dbConnectionFactory;
     }
     
-    public async Task<bool> CreateAsync(Subcategory subcategory, string categoryName)
+    public async Task<bool> CreateAsync(Subcategory subcategory, string categoryName, CancellationToken token = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
@@ -22,7 +22,7 @@ public class SubcategoryRepository : ISubcategoryRepository
             INSERT INTO Subcategories (Name, CategoryName, AdditionalProps)
             VALUES (@Name, @CategoryName, @AdditionalProps)
             ON CONFLICT DO NOTHING;
-        ", new { Name = subcategory.Name, AdditionalProps = subcategory.AdditionalProps, CategoryName = categoryName }));
+        ", new { Name = subcategory.Name, AdditionalProps = subcategory.AdditionalProps, CategoryName = categoryName }, cancellationToken: token));
 
         if (result <= 0) return false;
         
@@ -41,13 +41,13 @@ public class SubcategoryRepository : ISubcategoryRepository
         return subcategory;
     }
 
-    public async Task<IEnumerable<Subcategory>> GetAllAsync()
+    public async Task<IEnumerable<Subcategory>> GetAllAsync(CancellationToken token = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
         var result = await connection.QueryAsync(new CommandDefinition(@"
             select * from Subcategories
-        "));
+        ", cancellationToken: token));
 
         return result.Select(x => new Subcategory
         {
@@ -57,14 +57,14 @@ public class SubcategoryRepository : ISubcategoryRepository
         });
     }
 
-    public async Task<bool> DeleteByNameAsync(string name)
+    public async Task<bool> DeleteByNameAsync(string name, CancellationToken token = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
 
         var result = await connection.ExecuteAsync(new CommandDefinition(@"
             delete from Subcategories where Name = @Name
-        ", new { Name = name }));
+        ", new { Name = name }, cancellationToken: token));
         
         transaction.Commit();
         return result > 0;

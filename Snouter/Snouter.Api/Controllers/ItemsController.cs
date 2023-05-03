@@ -18,10 +18,10 @@ public class ItemsController : ControllerBase
 
     [HttpPost]
     [Route(ApiEndpoints.Item.Create)]
-    public async Task<IActionResult> Create([FromBody] CreateItemRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateItemRequest request, CancellationToken token = default)
     {
         var item = request.MapToItem();
-        var isCreated = _itemService.CreateAsync(item).Result;
+        var isCreated = _itemService.CreateAsync(item, token).Result;
         if (!isCreated)
         {
             return BadRequest();
@@ -33,9 +33,9 @@ public class ItemsController : ControllerBase
     
     [HttpGet]
     [Route(ApiEndpoints.Item.GetById)]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken token)
     {
-        var item = await _itemService.GetByIdAsync(id);
+        var item = await _itemService.GetByIdAsync(id, token);
         if (item is null)
         {
             return NotFound();
@@ -47,9 +47,9 @@ public class ItemsController : ControllerBase
 
     [HttpDelete]
     [Route(ApiEndpoints.Item.DeleteById)]
-    public async Task<IActionResult> DeleteById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteById([FromRoute] Guid id, CancellationToken token)
     {
-        var isDeleted = await _itemService.DeleteByIdAsync(id);
+        var isDeleted = await _itemService.DeleteByIdAsync(id, token);
         if (!isDeleted)
         {
             return BadRequest();
@@ -59,10 +59,10 @@ public class ItemsController : ControllerBase
 
     [HttpPut]
     [Route(ApiEndpoints.Item.Update)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateItemRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateItemRequest request, CancellationToken token)
     {
         var task = request.MapToTask(id);
-        var isUpdated = await _itemService.UpdateAsync(task);
+        var isUpdated = await _itemService.UpdateAsync(task, token);
         if (!isUpdated)
         {
             return NotFound();
