@@ -12,12 +12,10 @@ namespace Snouter.Api.Controllers;
 [ApiController]
 public class SubcategoriesController : ControllerBase
 {
-    private readonly ISubcategoryRepository _subcategoryRepository;
     private readonly ISubcategoryService _subcategoryService;
 
-    public SubcategoriesController(ISubcategoryRepository subcategoryRepository, ISubcategoryService subcategoryService)
+    public SubcategoriesController(ISubcategoryService subcategoryService)
     {
-        _subcategoryRepository = subcategoryRepository;
         _subcategoryService = subcategoryService;
     }
 

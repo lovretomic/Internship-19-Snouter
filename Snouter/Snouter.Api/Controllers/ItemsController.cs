@@ -19,7 +19,7 @@ public class ItemsController : ControllerBase
         _itemService = itemService;
     }
 
-    [Authorize("Admin")]
+    [Authorize("User")]
     [HttpPost]
     [Route(ApiEndpoints.Item.Create)]
     public async Task<IActionResult> Create([FromBody] CreateItemRequest request, CancellationToken token = default)

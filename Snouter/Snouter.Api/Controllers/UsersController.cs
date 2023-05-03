@@ -11,12 +11,10 @@ namespace Snouter.Api.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
     private readonly IUserService _userService;
 
-    public UsersController(IUserRepository userRepository, IUserService userService)
+    public UsersController(IUserService userService)
     {
-        _userRepository = userRepository;
         _userService = userService;
     }
     
@@ -57,7 +55,8 @@ public class UsersController : ControllerBase
         var response = user.MapToResponse();
         return Ok(response);
     }
-
+    
+    [Authorize("User")]
     [HttpPut]
     [Route(ApiEndpoints.User.Update)]
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequest request, CancellationToken token)
