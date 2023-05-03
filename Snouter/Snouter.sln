@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snouter.Application", "Snou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snouter.Contracts", "Snouter.Contracts\Snouter.Contracts.csproj", "{A962C396-2A75-4892-AD33-1B3979D19274}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{84294FA1-0E11-4EED-A5E3-9825C5A1F3E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Api", "Identity.Api\Identity.Api.csproj", "{1AAE25BB-DF51-4DF9-BDDC-5D5DE5C337ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,11 +31,18 @@ Global
 		{A962C396-2A75-4892-AD33-1B3979D19274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A962C396-2A75-4892-AD33-1B3979D19274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A962C396-2A75-4892-AD33-1B3979D19274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AAE25BB-DF51-4DF9-BDDC-5D5DE5C337ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AAE25BB-DF51-4DF9-BDDC-5D5DE5C337ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AAE25BB-DF51-4DF9-BDDC-5D5DE5C337ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AAE25BB-DF51-4DF9-BDDC-5D5DE5C337ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4075B329-17EF-4F13-ABA1-0C4EF14A81AB}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AAE25BB-DF51-4DF9-BDDC-5D5DE5C337ED} = {84294FA1-0E11-4EED-A5E3-9825C5A1F3E1}
 	EndGlobalSection
 EndGlobal
